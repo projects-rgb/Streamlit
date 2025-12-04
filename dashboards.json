@@ -1,0 +1,16 @@
+[
+  {
+    "name": "HR Summary",
+    "url": "https://prod-in-a.online.tableau.com/t/laxmipathi-f6efc8bf0c/views/HRExecutiveSummary/HRExecutiveSummary?:origin=card_share_link&:embed=n"
+  },
+  {  
+    "name": "Executive Summary",
+    "url": "https://prod-in-a.online.tableau.com/t/laxmipathi-f6efc8bf0c/views/SalesforceAdminInsights/ExecutiveSummary"
+  },
+  {
+    "name": "Staff Summary",
+    "url": "https://prod-in-a.online.tableau.com/t/laxmipathi-f6efc8bf0c/views/SalesforceNonprofitProgramManagement/StaffCapacity"
+  }
+]
+
+
