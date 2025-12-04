@@ -10,9 +10,6 @@ import base64
 # ---------------------------
 st.set_page_config(page_title="Client Dashboard Portal", layout="wide")
 
-STREAMLIT_USERNAME = "projects@amigoserp.org"
-STREAMLIT_PASSWORD = "Riddhika@2025"
-
 SECRETS_FILE = "secrets.json"
 DASHBOARDS_FILE = "dashboards.json"
 
@@ -25,6 +22,19 @@ def load_json(path):
         return json.load(f)
 
 
+# ---------------------------
+# LOAD LOGIN + TABLEAU USER FROM JSON
+# ---------------------------
+secrets_cache = load_json(SECRETS_FILE)
+
+STREAMLIT_USERNAME = secrets_cache.get("admin_user")
+STREAMLIT_PASSWORD = secrets_cache.get("admin_password")
+TABLEAU_USER = secrets_cache.get("tableau_user")
+
+
+# ---------------------------
+# JWT GENERATOR
+# ---------------------------
 def generate_tableau_jwt(secrets, tableau_user_email, expiry=300):
     now = int(time.time())
 
@@ -34,10 +44,7 @@ def generate_tableau_jwt(secrets, tableau_user_email, expiry=300):
         "aud": "tableau",
         "jti": str(now),
         "exp": now + expiry,
-
-        # ❗ FIXED — MUST be nested object
-        "site": { "id": secrets["site_id"] },
-
+        "site": {"id": secrets["site_id"]},
         "scp": ["tableau:views:embed"]
     }
 
@@ -50,38 +57,39 @@ def generate_tableau_jwt(secrets, tableau_user_email, expiry=300):
     return token
 
 
+# ---------------------------
+# BUILD IFRAME URL
+# ---------------------------
 def build_iframe_url(view_url, token):
     delim = "&" if "?" in view_url else "?"
-    return (
-        f"{view_url}{delim}:embed=y&:showVizHome=n&:toolbar=n&:api_token={token}"
-    )
+    return f"{view_url}{delim}:embed=y&:showVizHome=n&:toolbar=n&:api_token={token}"
 
 
 # ---------------------------
-# LOGIN SCREEN
+# LOGIN SCREEN (unchanged except image fix)
 # ---------------------------
 def login_screen():
 
-    # background image
     bg_path = None
     for ext in ["png", "jpg", "jpeg"]:
-        file = f"assets/landing_page.{ext}"
-        if os.path.exists(file):
-            bg_path = file
+        f = f"assets/landing_page.{ext}"
+        if os.path.exists(f):
+            bg_path = f
             break
 
     if bg_path:
-        bg = base64.b64encode(open(bg_path, "rb").read()).decode()
+        b64 = base64.b64encode(open(bg_path, "rb").read()).decode()
         st.markdown(
             f"""
             <style>
-                [data-testid="stAppViewContainer"] {{
-                    background-image: url("data:image/jpg;base64,{bg}");
-                    background-size: cover;
-                    background-position: center;
+                html, body {{
+                    margin:0; padding:0; height:100%;
                 }}
-                .whitepatch {{
-                    display: none !important;
+                [data-testid="stAppViewContainer"] {{
+                    background-image: url("data:image/jpg;base64,{b64}");
+                    background-size: cover !important;
+                    background-position: center !important;
+                    background-repeat: no-repeat !important;
                 }}
                 input {{
                     background: rgba(0,0,0,0.45) !important;
@@ -110,9 +118,10 @@ def login_screen():
 
 
 # ---------------------------
-# DASHBOARD SCREEN
+# DASHBOARD SCREEN (ONLY FIT-TO-SCREEN CHANGED)
 # ---------------------------
 def dashboard_page():
+
     secrets = load_json(SECRETS_FILE)
     dashboards = load_json(DASHBOARDS_FILE)
 
@@ -128,28 +137,43 @@ def dashboard_page():
         st.session_state.clear()
         st.rerun()
 
-    tableau_user = "laxmipathi@teramor.in"  # fixed user
-
+    tableau_user = TABLEAU_USER
     token = generate_tableau_jwt(secrets, tableau_user)
 
     view_url = next(d["url"] for d in dashboards if d["name"] == selected)
     iframe_url = build_iframe_url(view_url, token)
 
     st.header(selected)
-    tableau_script = '<script type="module" src="https://prod-in-a.online.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js"></script>'
 
+    tableau_script = (
+        '<script type="module" '
+        'src="https://prod-in-a.online.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js">'
+        '</script>'
+    )
+
+    # ⭐ FINAL FIT-TO-SCREEN PATCH (SAFE)
     html_block = f"""
     {tableau_script}
-    <iframe 
-        src="{iframe_url}"
-        width="100%"
-        height="900"
-        frameborder="0"
-        allowfullscreen>
-    </iframe>
+
+    <style>
+        html, body {{
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }}
+        #vizframe {{
+            width: 100%;
+            height: calc(100vh - 70px); /* perfect viewport fit */
+            border: none;
+        }}
+    </style>
+
+    <iframe id="vizframe" src="{iframe_url}" allowfullscreen></iframe>
     """
 
-    st.components.v1.html(html_block, height=930, scrolling=True)
+    # IMPORTANT: Must give fixed height > 0 or Streamlit hides iframe.
+    st.components.v1.html(html_block, height=1200, scrolling=False)
 
 
 # ---------------------------
