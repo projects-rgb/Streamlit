@@ -71,11 +71,21 @@ def build_iframe_url(view_url, token):
 def login_screen():
 
     bg_path = None
+
+    # Look in /assets folder
     for ext in ["png", "jpg", "jpeg"]:
-        f = f"assets/landing_page.{ext}"
-        if os.path.exists(f):
-            bg_path = f
+        file = f"assets/landing_page.{ext}"
+        if os.path.exists(file):
+            bg_path = file
             break
+
+    # If not found, also look in root folder
+    if not bg_path:
+        for ext in ["png", "jpg", "jpeg"]:
+            file = f"landing_page.{ext}"
+            if os.path.exists(file):
+                bg_path = file
+                break
 
     if bg_path:
         b64 = base64.b64encode(open(bg_path, "rb").read()).decode()
