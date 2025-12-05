@@ -1,9 +1,25 @@
 [
   {
+    "name": "Balance Sheet",
+    "url": "https://prod-in-a.online.tableau.com/t/laxmipathi-f6efc8bf0c/views/PL/BalanceSheet?:origin=card_share_link&:embed=n"
+  },
+  {
+    "name": "P&L Sheet",
+    "url": "https://prod-in-a.online.tableau.com/t/laxmipathi-f6efc8bf0c/views/PL/PL_1?:origin=card_share_link&:embed=n"
+  },
+  {
+    "name": "IFRS - Balance Sheet",
+    "url": "https://prod-in-a.online.tableau.com/t/laxmipathi-f6efc8bf0c/views/PL/IFRS_BalanceSheet?:origin=card_share_link&:embed=n"
+  },
+  {
+    "name": "IFRS - P&L Sheet",
+    "url": "https://prod-in-a.online.tableau.com/t/laxmipathi-f6efc8bf0c/views/PL/IFRS_PL?:origin=card_share_link&:embed=n"
+  },
+  {
     "name": "HR Summary",
     "url": "https://prod-in-a.online.tableau.com/t/laxmipathi-f6efc8bf0c/views/HRExecutiveSummary/HRExecutiveSummary"
   },
-  {  
+  {
     "name": "Executive Summary",
     "url": "https://prod-in-a.online.tableau.com/t/laxmipathi-f6efc8bf0c/views/SalesforceAdminInsights/ExecutiveSummary"
   },
