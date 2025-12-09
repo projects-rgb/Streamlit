@@ -1,30 +1,26 @@
 [
   {
     "name": "Balance Sheet",
-    "url": "https://prod-in-a.online.tableau.com/t/laxmipathi-f6efc8bf0c/views/PL/BalanceSheet?:origin=card_share_link&:embed=n"
+    "url": "https://prod-in-a.online.tableau.com/t/projects-84b504b020/views/PL/BalanceSheet?:origin=card_share_link&:embed=n"
   },
   {
     "name": "P&L Sheet",
-    "url": "https://prod-in-a.online.tableau.com/t/laxmipathi-f6efc8bf0c/views/PL/PL_1?:origin=card_share_link&:embed=n"
+    "url": "https://prod-in-a.online.tableau.com/t/projects-84b504b020/views/PL/PL_1?:origin=card_share_link&:embed=n"
   },
   {
     "name": "IFRS - Balance Sheet",
-    "url": "https://prod-in-a.online.tableau.com/t/laxmipathi-f6efc8bf0c/views/PL/IFRS_BalanceSheet?:origin=card_share_link&:embed=n"
+    "url": "https://prod-in-a.online.tableau.com/t/projects-84b504b020/views/PL/IFRS_BalanceSheet?:origin=card_share_link&:embed=n"
   },
   {
     "name": "IFRS - P&L Sheet",
-    "url": "https://prod-in-a.online.tableau.com/t/laxmipathi-f6efc8bf0c/views/PL/IFRS_PL?:origin=card_share_link&:embed=n"
+    "url": "https://prod-in-a.online.tableau.com/t/projects-84b504b020/views/PL/IFRS_PL?:origin=card_share_link&:embed=n"
   },
   {
     "name": "HR Summary",
-    "url": "https://prod-in-a.online.tableau.com/t/laxmipathi-f6efc8bf0c/views/HRExecutiveSummary/HRExecutiveSummary"
+    "url": "https://prod-in-a.online.tableau.com/t/projects-84b504b020/views/HRExecutiveSummary/HRExecutiveSummary?:origin=card_share_link&:embed=n"
   },
   {
     "name": "Executive Summary",
-    "url": "https://prod-in-a.online.tableau.com/t/laxmipathi-f6efc8bf0c/views/SalesforceAdminInsights/ExecutiveSummary"
-  },
-  {
-    "name": "Staff Summary",
-    "url": "https://prod-in-a.online.tableau.com/t/laxmipathi-f6efc8bf0c/views/SalesforceNonprofitProgramManagement/StaffCapacity"
+    "url": "https://prod-in-a.online.tableau.com/t/projects-84b504b020/views/SalesforceConsumerGoodsCloud-KeyAccountManagement/ExecutiveSummary?:origin=card_share_link&:embed=n"
   }
 ]
