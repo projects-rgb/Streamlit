@@ -35,8 +35,12 @@ TABLEAU_USER = secrets_cache.get("tableau_user")
 # ---------------------------
 # JWT GENERATOR
 # ---------------------------
-def generate_tableau_jwt(secrets, tableau_user_email, expiry=300):
+def generate_tableau_jwt(secrets, tableau_user_email, expiry=None):
     now = int(time.time())
+    
+    # Auto-expiry: 2 hours
+    if expiry is None:
+        expiry = 7200  
 
     payload = {
         "iss": secrets["client_id"],
@@ -87,6 +91,7 @@ def login_screen():
                 bg_path = file
                 break
 
+
     if bg_path:
         b64 = base64.b64encode(open(bg_path, "rb").read()).decode()
         st.markdown(
@@ -132,6 +137,41 @@ def login_screen():
 # ---------------------------
 def dashboard_page():
 
+    # --------------------------
+    # DASHBOARD BACKGROUND STYLE
+    # --------------------------
+    st.markdown(
+        """
+        <style>
+            /* Main App Background */
+            [data-testid="stAppViewContainer"] {
+                background: #f5f6fa !important;
+            }
+
+            /* Sidebar stays clean white */
+            [data-testid="stSidebar"] {
+                background: #ffffff !important;
+                border-right: 1px solid #e0e0e0 !important;
+            }
+
+            /* Remove white box in main content */
+            .block-container {
+                background: transparent !important;
+                padding-top: 2rem !important;
+            }
+
+            /* Optional: soften top header bar */
+            [data-testid="stHeader"] {
+                background: transparent !important;
+            }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+    # --------------------------
+    # EXISTING LOGIC
+    # --------------------------
     secrets = load_json(SECRETS_FILE)
     dashboards = load_json(DASHBOARDS_FILE)
 
@@ -174,7 +214,7 @@ def dashboard_page():
         }}
         #vizframe {{
             width: 100%;
-            height: calc(100vh - 70px); /* perfect viewport fit */
+            height: calc(100vh - 70px);
             border: none;
         }}
     </style>
@@ -182,9 +222,7 @@ def dashboard_page():
     <iframe id="vizframe" src="{iframe_url}" allowfullscreen></iframe>
     """
 
-    # IMPORTANT: Must give fixed height > 0 or Streamlit hides iframe.
     st.components.v1.html(html_block, height=1200, scrolling=False)
-
 
 # ---------------------------
 # MAIN
